@@ -1,19 +1,216 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="colorlib.com" name="author">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<script src="main.js" type="text/javascript"></script>
+  <!-- <script src="js/documentCreate.js" type="module"></script> -->
+  <!-- <script src="jquery-3.5.1.min.js"></script> -->
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+	<title>IBM Autobrochure</title>
+</head>
+<body>
+	<div class="s010">
+		<!-- <h1 class="title">Autobrochure Generator</h1> -->
+		<form>
+			<div class="inner-form">
+				<div class="row">
+					<div class="column"><img src="images/IBMLogo.svg" style="height:200px; display: block; margin-top:98px; margin-bottom: 10px; margin-right:15px; margin-left: auto; padding:10px"></div>
+					<div class="column"><img src="images/ucl_Logo.png" style="height:200px; display:block; margin-left:10px; margin-top:98px; padding:10px;"></div>
+				</div>
+				<div style="padding: 20px;">
+					<h3>Select spreadsheets to work with:</h3>
+					<form action="/action_page.php">
+						<label for="csvFiles">Select files:</label> <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="csvFiles" multiple name="csvFiles" type="file"><br>
+						<br>
+						<button type="button" onclick="getFiles()" value="Submit">Submit</button>
+					</form>
+				</div>
+				<div class="basic-search">
+					<div class="input-field">
+						<input id="search" placeholder="Type Keywords" type="text">
+						<div class="icon-wrap">
+							<svg height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+						</div>
+					</div>
+				</div>
+				<div class="advance-search">
+					<span class="desc">ADVANCED SEARCH</span>
+					<div class="row">
+						<div class="input-field">
+							<div class="input-select">
+								<select data-trigger="" id="searchfield-1">
+									<option value="">
+										Institution
+									</option>
+									<option>
+										University College London
+									</option>
+									<option>
+										King's College London
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-field">
+							<div class="input-select">
+								<select data-trigger="" id="searchfield-2">
+									<option value="">
+										Year of Study
+									</option>
+									<option>
+										First Year
+									</option>
+									<option>
+										Second Year
+									</option>
+									<option>
+										Third Year
+									</option>
+									<option>
+										Fourth Year
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-field">
+							<div class="input-select">
+								<select data-trigger="" id="searchfield-3">
+									<option value="">
+										Field 3
+									</option>
+									<option>
+										Subject b
+									</option>
+									<option>
+										Subject c
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row second">
+						<div class="input-field">
+							<div class="input-select">
+								<select data-trigger="" id="searchfield-4">
+									<option value="">
+										Field 4
+									</option>
+									<option>
+										Subject b
+									</option>
+									<option>
+										Subject c
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-field">
+							<div class="input-select">
+								<select data-trigger="" id="searchfield-5">
+									<option value="">
+										Time
+									</option>
+									<option>
+										Last time
+									</option>
+									<option>
+										Today
+									</option>
+									<option>
+										This week
+									</option>
+									<option>
+										This month
+									</option>
+									<option>
+										This year
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-field">
+							<div class="input-select">
+								<select data-trigger="" id="searchfield-6">
+									<option value="">
+										Type
+									</option>
+									<option>
+										Subject b
+									</option>
+									<option>
+										Subject c
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row third">
+						<div class="input-field">
+							<div class="result-count">
+								<span>108</span> results
+							</div>
+							<div class="group-btn">
+                <button class="btn-delete" id="delete">RESET</button> 
+                <input class="btn-search" id="search_button" type="button" value="SEARCH" onclick="searcher()">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="js/choices.js">
+	</script> 
+	
+
+	<script>
+	        const customSelects = document.querySelectorAll("select");
+	        const deleteBtn = document.getElementById('delete')
+	        const choices = new Choices('select',
+	        {
+	          searchEnabled: false,
+	          itemSelectText: '',
+	          removeItemButton: true,
+	        });
+	        for (let i = 0; i < customSelects.length; i++)
+	        {
+	          customSelects[i].addEventListener('addItem', function(event)
+	          {
+	            if (event.detail.value)
+	            {
+	              let parent = this.parentNode.parentNode
+	              parent.classList.add('valid')
+	              parent.classList.remove('invalid')
+	            }
+	            else
+	            {
+	              let parent = this.parentNode.parentNode
+	              parent.classList.add('invalid')
+	              parent.classList.remove('valid')
+	            }
+	          }, false);
+	        }
+	        deleteBtn.addEventListener("click", function(e)
+	        {
+	          e.preventDefault()
+	          const deleteAll = document.querySelectorAll('.choices__button')
+	          for (let i = 0; i < deleteAll.length; i++)
+	          {
+	            deleteAll[i].click();
+	          }
+	        });
+	        
+  </script>
+  <script src="main.js" type="text/javascript"></script>
+  <!-- <script src="js/documentCreate.js" type="module"></script> -->
+  <!-- <script src="node_modules/jquery/src/ajax.js"></script> -->
+
+
+</body>
 </html>
