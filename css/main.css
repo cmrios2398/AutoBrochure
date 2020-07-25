@@ -546,7 +546,28 @@ legend {
   font-weight:normal;
   
 }
+#showData {
+  font-family: inherit;
+  border-collapse: collapse;
+  width: 100%;
+}
 
+#showData td, #showData th {
+  border: 1px solid rgb(82, 82, 82);
+  padding: 8px;
+}
+
+#showData tr:nth-child(even){background-color: #f2f2f2;}
+
+#showData tr:hover {background-color: #ddd;}
+
+#showData th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: rgb(102,102,102);
+  color: white;
+}
 .choices[data-type*="select-one"] .choices__inner {
   padding-bottom: 7.5px;
 }

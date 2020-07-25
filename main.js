@@ -123,9 +123,8 @@ function generateWordDocument(fieldList, keywords, brochureData) {
 
 
  
-
+  var brochureData = JSON.parse(localStorage.getItem("brochureData"))
   var keys = JSON.parse(localStorage.getItem("keys"));
-  console.log(keys);
 
 
   let doc = new Document({
@@ -136,7 +135,6 @@ function generateWordDocument(fieldList, keywords, brochureData) {
 
 
   var projectsFound = [];
-  // console.log(brochureData)
   brochureData.forEach(element => {
       projectsFound.push(
 
@@ -186,7 +184,6 @@ function generateWordDocument(fieldList, keywords, brochureData) {
       )
   })
 
-  // console.log(projectsFound)
 
   doc.addSection({
       children: projectsFound
@@ -208,6 +205,7 @@ function contains(target, pattern) {
   return (value === 1)
 }
 
+
 function searcher() {
 
   
@@ -220,22 +218,22 @@ function searcher() {
   var fieldList = [];
   
   var field_1 = document.getElementById("searchfield-1");
-  if (field_1.options[field_1.selectedIndex].text != "Module Code") fieldList.push(field_1.options[field_1.selectedIndex].text);
+  if (field_1.options[field_1.selectedIndex].text != "Module Code") fieldList.push(field_1.options[field_1.selectedIndex].text.toLowerCase());
 
   var field_2 = document.getElementById("searchfield-2");
-  if (field_2.options[field_2.selectedIndex].text != "Academic Supervisor") fieldList.push(field_2.options[field_2.selectedIndex].text);
+  if (field_2.options[field_2.selectedIndex].text != "Academic Supervisor") fieldList.push(field_2.options[field_2.selectedIndex].text.toLowerCase());
 
   var field_3 = document.getElementById("searchfield-3");
-  if (field_3.options[field_3.selectedIndex].text != "Project Author") fieldList.push(field_3.options[field_3.selectedIndex].text);
+  if (field_3.options[field_3.selectedIndex].text != "Project Author") fieldList.push(field_3.options[field_3.selectedIndex].text.toLowerCase());
 
   var field_4 = document.getElementById("searchfield-4");
-  if (field_4.options[field_4.selectedIndex].text != "Client Name") fieldList.push(field_4.options[field_4.selectedIndex].text);
+  if (field_4.options[field_4.selectedIndex].text != "Client Name") fieldList.push(field_4.options[field_4.selectedIndex].text.toLowerCase());
 
   var field_5 = document.getElementById("searchfield-5");
-  if (field_5.options[field_5.selectedIndex].text != "Technologies Used") fieldList.push(field_5.options[field_5.selectedIndex].text);
+  if (field_5.options[field_5.selectedIndex].text != "Technologies Used") fieldList.push(field_5.options[field_5.selectedIndex].text.toLowerCase());
 
   var field_6 = document.getElementById("searchfield-6");
-  if (field_6.options[field_6.selectedIndex].text != "Field Area") fieldList.push(field_6.options[field_6.selectedIndex].text);
+  if (field_6.options[field_6.selectedIndex].text != "Field Area") fieldList.push(field_6.options[field_6.selectedIndex].text.toLowerCase());
 
   var keywords_string = document.getElementById("input").value.toLowerCase();
   
@@ -245,18 +243,21 @@ function searcher() {
   var cleanedKeywords = [];
 
   keywords.forEach(element => {
-    if(element!=" "){
-      cleanedKeywords.push(element.trim())
+    if(element!=""){
+      if(element!=" "){
+        cleanedKeywords.push(element.toLowerCase().trim())
+        console.log(element.toLowerCase().trim())
+      }
     }
   });
 
 
   var allKeywords = cleanedKeywords.concat(fieldList);
-  // console.log(allKeywords);
 
   keys = JSON.parse(localStorage.getItem("keys"))
   var brochureData = [];
 
+  console.log(allKeywords)
 
 
   //You are starting with the search algorithm going through every database field (project, author...) of each
@@ -266,9 +267,8 @@ function searcher() {
 
 
   // SIMPLE SEARCH:
+  var title, authors, moduleCode, supervisorName, clientName, clientOrganisation, technologiesUsed;
   jsonAllData.forEach(element => {
-    // console.log(element[keys[0]]);
-    var title, authors, moduleCode, supervisorName, clientName, clientOrganisation, technologiesUsed;
 
 
     try{
@@ -309,6 +309,9 @@ function searcher() {
 
   
 
+    // console.log(moduleCode)
+    // console.log(allKeywords)
+
     if (
     (contains(title, allKeywords)) || 
     (contains(authors, allKeywords)) || 
@@ -322,12 +325,16 @@ function searcher() {
     }
   });
 
-  
-  var nResults = document.getElementById("noOfResults");
-  var number = document.createTextNode(brochureData.length);
-  nResults.appendChild(number);
+  localStorage.setItem("brochureData",JSON.stringify(brochureData));
 
-  generateWordDocument(fieldList, keywords, brochureData);
+  var nResults = document.getElementById("noOfResults");
+  nResults.innerHTML = brochureData.length + " results";
+  // var number = document.createTextNode(brochureData.length);
+  // nResults.appendChild(number);
+
+  console.log(brochureData)
+
+  // generateWordDocument(fieldList, keywords, brochureData);
 
 
 
@@ -385,7 +392,6 @@ function remove_duplicates(arr) {
           result.push(string)
         }
      }
-// console.log(result)
   return   result
   ;
 }
@@ -395,7 +401,6 @@ function getFiles() {
 
   
   var x = document.getElementById("csvFiles");
-  // console.log("File: " + x.files[0].path);
 
   if (x.value != "") {
       x.disabled = true;
@@ -424,18 +429,14 @@ function getFiles() {
           type: "binary"
       });
 
-      /* DO SOMETHING WITH workbook HERE */
       var first_sheet_name = workbook.SheetNames[0];
       /* Get worksheet */
       var worksheet = workbook.Sheets[first_sheet_name];
       var output = XLSX.utils.sheet_to_json(worksheet, {
           raw: true
       })
-      // jsonAllData = output;
-      // console.log("data: " + output);
       localStorage.setItem('jsonAllData', JSON.stringify(output));
 
-      // return jsonAllData;
 
   }
   oReq.send();
@@ -450,7 +451,6 @@ function getFiles() {
     // ...
 
 
-    console.log(keys);
     localStorage.setItem("keys",JSON.stringify(keys));
     //TITLES LIST
   var titlesList = []
@@ -464,7 +464,6 @@ function getFiles() {
   titlesList.sort();
   localStorage.setItem("titlesList",JSON.stringify(titlesList));
 
-  // console.log(titlesList);
 
   var keywordTitles = []
   titlesList.forEach(element => {
@@ -474,7 +473,6 @@ function getFiles() {
   });
   
 
-  // console.log("keywordTitles: " + keywordTitles)
 
   //MODULE LIST:
   var moduleCodes = []
@@ -653,7 +651,6 @@ function getFiles() {
 
   fullKeywordList = remove_duplicates(fullKeywordList);
 
-  // console.log(fullKeywordList);
   //SEARCHBAR
 
   new Awesomplete('input[data-multiple]', {

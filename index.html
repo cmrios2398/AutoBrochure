@@ -60,7 +60,7 @@
 					<br>
 					
 				</div>
-				<div style="display: none" id="advance-search" class="advance-search">
+				<div style="display: block" id="advance-search" class="advance-search">
 					<span class="desc">ADVANCED SEARCH</span>
 					<div class="row">
 						<div class="input-field">
@@ -137,6 +137,78 @@
 							
                 	<!-- <input type ="button" class="btn-delete" onclick="resetFieldValues()" value="RESET"></button> -->
             		<input class="btn-search" id="search_button" type="button" value="SEARCH" onclick="searcher()">
+							</div>
+						</div>
+					</div>
+				</div>
+<br>
+				<!-- RESULTS -->
+				<div style="display: block" id="docreate" class="advance-search">
+					<span class="desc">PREVIEW AND DOCUMENT SETTINGS</span>
+					<div style="display:none; max-height:500px; overflow-x:auto; overflow-y: auto;" id = "showData"></div>
+					<br>
+					<div class="row second">
+						<div class="input-field">
+							<div class="input-select">
+								<select class = "select-css" data-trigger="" id="searchfield-4" >
+									<option>
+										Paper Size
+									</option>
+									<option>
+										A3
+									</option>
+									<option>
+										A4
+									</option>
+									<option>
+										A5
+									</option>
+									
+								</select>
+							</div>
+						</div>
+						<div class="input-field">
+							<div class="input-select">
+								<select class = "select-css" data-trigger="" id="searchfield-5" >
+									<option>
+										Orientation
+									</option>
+									
+									<option>
+										Portrait
+									</option>
+									<option>
+										Landscape
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-field">
+							<div class="input-select">
+								<select class = "select-css" data-trigger="" id="searchfield-6" >
+									<option value="">
+										Template
+									</option>
+									
+									<option>
+										UCL Showcase
+									</option>
+									<option>
+										IBM Report
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row third">
+						<div class="input-field">
+							<div class="result-count">
+								<span id="noOfResults"></span>
+							</div>
+							<div class="group-btn">
+							
+                	<!-- <input type ="button" class="btn-delete" onclick="resetFieldValues()" value="RESET"></button> -->
+            		<input class="btn-search" id="search_button" type="button" value="GENERATE" onclick="generateWordDocument()">
 							</div>
 						</div>
 					</div>
