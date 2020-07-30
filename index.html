@@ -56,7 +56,7 @@
 					<br>
 					
 				</div>
-				<div style="display: block" id="advance-search" class="advance-search">
+				<div style="display: none" id="advance-search" class="advance-search">
 					<span class="desc">ADVANCED SEARCH</span>
 					<div class="row">
 						<div class="input-field">
@@ -139,15 +139,15 @@
 				</div>
 <br>
 				<!-- RESULTS -->
-				<div style="display: block" id="docreate" class="advance-search">
+				<div style="display: none" id="docreate" class="advance-search">
 					<span class="desc">PREVIEW AND DOCUMENT SETTINGS</span>
 					<div style="display:none; max-height:500px; overflow-x:auto; overflow-y: auto;" id = "showData"></div>
 					<br>
-					<div class="row second">
+					<div class="row second" style="margin-bottom: 20px;">
 						<div class="input-field">
 							<div class="input-select">
-								<select class = "select-css" data-trigger="" id="searchfield-4" >
-									<option>
+								<select class = "select-css" data-trigger="" id="paper_size" >
+									<option selected disabled value = "default">
 										Paper Size
 									</option>
 									<option>
@@ -165,8 +165,8 @@
 						</div>
 						<div class="input-field">
 							<div class="input-select">
-								<select class = "select-css" data-trigger="" id="searchfield-5" >
-									<option>
+								<select class = "select-css" data-trigger="" id="orientation" >
+									<option selected disabled value = "default">
 										Orientation
 									</option>
 									
@@ -181,8 +181,8 @@
 						</div>
 						<div class="input-field">
 							<div class="input-select">
-								<select class = "select-css" data-trigger="" id="searchfield-6" >
-									<option value="">
+								<select disabled class = "select-css" data-trigger="" id="template" >
+									<option selected disabled value="default">
 										Template
 									</option>
 									
@@ -196,6 +196,23 @@
 							</div>
 						</div>
 					</div>
+					<div style="padding-top:0"class = "row">
+						<div class ="input-field">
+							<!-- <div class="input-select"> -->
+							<label style="font-size: 15px; padding-left: 3px;"for="document_title">Document Title:</label>
+							<input style="font-size: 15px; padding-top: 10px; border-radius: 8px; height:35px;padding-left:10px" type="text" id="document_title" name="document_title">
+						</div>
+						<div class ="input-field">
+							<!-- <div class="input-select"> -->
+							<label style="font-size: 15px; padding-left: 3px;"for="department">Department:</label>
+							<input style="font-size: 15px; padding-top: 10px; border-radius: 8px; height:35px;padding-left:10px" type="text" id="department" name="document_title">
+						</div>
+						<div class ="input-field">
+							<!-- <div class="input-select"> -->
+							<label style="font-size: 15px; padding-left: 3px;"for="document_author">Document Author:</label>
+							<input style="font-size: 15px; padding-top: 10px; border-radius: 8px; height:35px;padding-left:10px" type="text" id="document_author" name="document_title">
+						</div>
+					</div>
 					<div class="row third">
 						<div class="input-field">
 							<div class="result-count">
@@ -204,7 +221,7 @@
 							<div class="group-btn">
 							
                 	<!-- <input type ="button" class="btn-delete" onclick="resetFieldValues()" value="RESET"></button> -->
-            		<input class="btn-search" id="search_button" type="button" value="GENERATE" onclick="generateWordDocument()">
+            		<input class="btn-search" id="generate_button" type="button" value="GENERATE">
 							</div>
 						</div>
 					</div>

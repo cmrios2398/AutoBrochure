@@ -33,6 +33,7 @@ const {
   each
 } = require('jquery')
 const { stringify } = require('querystring')
+const { forEach } = require('jszip')
 // const { TitleStyle } = require('docx/build/file/styles/style')
 
 // Enable live reload for all the files inside your project directory
@@ -79,21 +80,157 @@ app.on('before-quit', () => {
 
 
 
+function changeTemplateOptions(){
+  var fs = require("fs");
 
+  var paper_size = $("#paper_size").val();
+  var orientation = $("#orientation").val();
+  var template = $("#template").val();
+
+  var templateOptions = [];
+
+  console.log(paper_size)
+  console.log(orientation)
+  switch (paper_size) {
+    case "A3":
+      switch(orientation){
+        case "Portrait":
+          templateOptions = fs.readdirSync('./templates/A3/portrait');
+          break;
+        case "Landscape":
+          templateOptions = fs.readdirSync('./templates/A3/landscape')
+          break;
+        default:
+          break;
+        }
+        break;
+    case "A4":
+      switch(orientation){
+        case "Portrait":
+          templateOptions = fs.readdirSync('./templates/A4/portrait');
+          break;
+        case "Landscape":
+          templateOptions = fs.readdirSync('./templates/A4/landscape')
+          break;
+        default:
+          break;
+        }
+        break;
+    case "A5":
+      switch(orientation){
+        case "Portrait":
+          templateOptions = fs.readdirSync('./templates/A5/portrait');
+          break;
+        case "Landscape":
+          templateOptions = fs.readdirSync('./templates/A5/landscape')
+          break;
+        default:
+          break;
+        }    
+        break;
+      default:
+        break;
+
+    
+  }
+
+  
+  localStorage.setItem("templateOptions",JSON.stringify(templateOptions))
+}
 
 
 function generateWordDocument(){
+  var fs = require("fs")
+  var brochureData = JSON.parse(localStorage.getItem("brochureData"));
+  var keys = JSON.parse(localStorage.getItem("keys"));
   var PizZip = require("pizzip");
   var Docxtemplater = require("docxtemplater");
+  var ImageModule = require("docxtemplater-image-module");
 
-  var fs = require("fs");
+  var opts = {};
+  opts.centered = false;
+  opts.getImage = function (tagValue, tagName) {
+    return fs.readFileSync(tagValue);
+  };
+  
+  opts.getSize = function (img, tagValue, tagName) {
+    return [150, 150];
+  };
+  
+  var imageModule = new ImageModule(opts);
+
+  var templateSelected = $("#template").val()
+
+  var paper_size = $("#paper_size").val();
+  var orientation = $("#orientation").val();
+  var template = $("#template").val();
+
   //Load the docx file as a binary
-  var content = fs
-  .readFileSync(path.resolve(__dirname, './template1.docx'));
+  var content;
+
+  switch (paper_size) {
+    case "A3":
+      switch(orientation){
+        case "Portrait":
+          content = fs.readFileSync(path.resolve(__dirname,'./templates/A3/portrait/' + templateSelected));
+          break;
+        case "Landscape":
+          content = fs.readFileSync(path.resolve(__dirname,'./templates/A3/landscape/' + templateSelected));
+          break;
+        default:
+          break;
+        }
+        break;
+    case "A4":
+      switch(orientation){
+        case "Portrait":
+          content = fs.readFileSync(path.resolve(__dirname,'./templates/A4/portrait/' + templateSelected));
+          break;
+        case "Landscape":
+          content = fs.readFileSync(path.resolve(__dirname,'./templates/A4/landscape/' + templateSelected));
+          break;
+        default:
+          break;
+        }
+        break;
+    case "A5":
+      switch(orientation){
+        case "Portrait":
+          content = fs.readFileSync(path.resolve(__dirname,'./templates/A5/portrait/' + templateSelected));
+          break;
+        case "Landscape":
+          content = fs.readFileSync(path.resolve(__dirname,'./templates/A5/landscape/' + templateSelected));
+          break;
+        default:
+          break;
+        }    
+        break;
+      default:
+        break;
+
+  }
+
+  var abstracts = []
+  brochureData.forEach(element => {
+    abstracts.push({
+      title: element[keys[0]],
+      authors: element[keys[1]],
+      code: element[keys[2]],
+      supervisors: element[keys[3]],
+      partners: element[keys[4]],
+      organisation: element[keys[5]],
+      technologies: element[keys[6]],
+      area: element[keys[7]],
+      abstract: element[keys[8]],
+      github: element[keys[9]]
+    } 
+    )
+  });
+
+  console.log(abstracts)
 
   // console.log(content)
   var zip = new PizZip(content);
-  console.log(zip)
   var doc;
   try {
   doc = new Docxtemplater(zip);
@@ -102,12 +239,18 @@ function generateWordDocument(){
   errorHandler(error);
   }
 
-  console.log(doc)
-
+  // console.log(brochureData)
+  
   //set the templateVariables
+
+  
   doc.setData({
-  example1: 'John',
-  example2: 'Doe'
+    abstracts: abstracts,
+    document_title: $("#document_title").val(),
+    department: $("#department").val(),
+    document_author: $("#document_author").val(),
+    image: "/images/ibm_Logo.png"
+  
   });
 
   try {
