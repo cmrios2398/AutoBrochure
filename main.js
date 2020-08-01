@@ -229,44 +229,55 @@ function generateWordDocument(){
 
   console.log(abstracts)
 
-  // console.log(content)
-  var zip = new PizZip(content);
-  var doc;
-  try {
-  doc = new Docxtemplater(zip);
-  } catch(error) {
-  // Catch compilation errors (errors caused by the compilation of the template : misplaced tags)
-  errorHandler(error);
-  }
-
-  // console.log(brochureData)
   
-  //set the templateVariables
-
-  
-  doc.setData({
-    abstracts: abstracts,
-    document_title: $("#document_title").val(),
-    department: $("#department").val(),
-    document_author: $("#document_author").val(),
-    image: "/images/ibm_Logo.png"
-  
+  var imageList = []
+  var allImages = Array.from($("#imageAdd")[0].files)
+  allImages.forEach(element => {
+    imageList.push(element.path)
   });
-
-  try {
-  // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
-  doc.render()
-  }
-  catch (error) {
-  // Catch rendering errors (errors relating to the rendering of the template : angularParser throws an error)
-  errorHandler(error);
-  }
-  var buf = doc.getZip()
-             .generate({type: 'nodebuffer'});
-
-// buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-fs.writeFileSync(path.resolve(__dirname, 'output.docx'), buf);
+  var paths = []
+  imageList.forEach(element =>{
+    paths.push({
+      image: element,
+      width: "10px"
+      
+    }
+    )
+  })
+   
+// imageList.forEach(element => {
   
+// });
+
+// imageList.push({
+//   image: "./images/ibm_Logo.png",
+// })
+
+// imageList.push({
+//   image: "./images/ucl_logo.png",
+// })
+
+console.log(imageList);
+
+var zip = new PizZip(content);
+var docx = new Docxtemplater()
+  .attachModule(imageModule)
+  .loadZip(zip)
+  .setData({ 
+      abstracts: abstracts,
+      document_title: $("#document_title").val(),
+      department: $("#department").val(),
+      document_author: $("#document_author").val(),
+      images: paths
+    
+    })
+  .render();
+
+var buffer = docx
+  .getZip()
+  .generate({ type: "nodebuffer", compression: "DEFLATE" });
+
+fs.writeFileSync(path.resolve(__dirname, 'output.docx'), buffer);
 }
 
 // var path = require("path"

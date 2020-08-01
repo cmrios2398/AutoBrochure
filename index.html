@@ -40,7 +40,7 @@
 				<div style="padding-bottom: 20px; padding-left: 10px;">
 					<h3>Select spreadsheets to work with:</h3>
 					<form action="/action_page.php">
-						<label for="csvFiles">Select files:</label> <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="csvFiles" multiple name="csvFiles" type="file"><br>
+						<label for="csvFiles">Select files:</label> <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="csvFiles"  name="csvFiles" type="file"><br>
 						<br>
 						<button id="submitButton" type="button" onclick="getFiles()" value="Submit">Submit</button>
 					</form>
@@ -139,7 +139,7 @@
 				</div>
 <br>
 				<!-- RESULTS -->
-				<div style="display: none" id="docreate" class="advance-search">
+				<div style="display: block" id="docreate" class="advance-search">
 					<span class="desc">PREVIEW AND DOCUMENT SETTINGS</span>
 					<div style="display:none; max-height:500px; overflow-x:auto; overflow-y: auto;" id = "showData"></div>
 					<br>
@@ -215,13 +215,14 @@
 					</div>
 					<div class="row third">
 						<div class="input-field">
-							<div class="result-count">
-								<span id="noOfResults"></span>
+							<div>
+								<form>
+									<label  for="imageAdd">Select images:</label> <input style="background: white; color:black; padding-top: 10px; padding-left: 0px;" accept="image/*" id="imageAdd" multiple name="imageAdd" type="file"><br>
+									
+								</form>
 							</div>
-							<div class="group-btn">
-							
-                	<!-- <input type ="button" class="btn-delete" onclick="resetFieldValues()" value="RESET"></button> -->
-            		<input class="btn-search" id="generate_button" type="button" value="GENERATE">
+							<div >
+            					<input class="btn-search" id="generate_button" type="button" value="GENERATE">
 							</div>
 						</div>
 					</div>

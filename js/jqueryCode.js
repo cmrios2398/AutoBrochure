@@ -1,11 +1,13 @@
 $("#generate_button").click(function(){
   if(($("#paper_size").val() == null) || ($("#orientation").val() == null) || ($("#template").val() == null) || ($("#template").val() == "Template")){
     alert("Please select all document settings before proceding.")
+   
   }
   else{
     generateWordDocument()
   }
 })
+
 
 
 
