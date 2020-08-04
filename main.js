@@ -238,26 +238,46 @@ function generateWordDocument(){
   var paths = []
   imageList.forEach(element =>{
     paths.push({
-      image: element,
-      width: "10px"
+      image: element
       
     }
     )
   })
    
-// imageList.forEach(element => {
-  
-// });
-
-// imageList.push({
-//   image: "./images/ibm_Logo.png",
-// })
-
-// imageList.push({
-//   image: "./images/ucl_logo.png",
-// })
-
 console.log(imageList);
+var ImageModule = require('docxtemplater-image-module-free');
+
+//Below the options that will be passed to ImageModule instance
+var opts = {}
+opts.centered = false; //Set to true to always center images
+opts.fileType = "docx"; //Or pptx
+
+//Pass your image loader
+opts.getImage = function(tagValue, tagName) {
+    //tagValue is 'examples/image.png'
+    //tagName is 'image'
+    return fs.readFileSync(tagValue);
+}
+
+//Pass the function that return image size
+opts.getSize = function (img, tagValue, tagName) {
+  console.log(tagValue, tagName);
+  // img is the value that was returned by getImage
+  // This is to force the width to 600px, but keep the same aspect ratio
+  const sizeOf = require("image-size");
+  const sizeObj = sizeOf(img);
+  console.log(sizeObj);
+  const forceWidth = 200;
+  const ratio = forceWidth / sizeObj.width;
+  return [
+    forceWidth,
+    // calculate height taking into account aspect ratio
+    Math.round(sizeObj.height * ratio),
+  ];
+};
+
+
+var imageModule = new ImageModule(opts);
 
 var zip = new PizZip(content);
 var docx = new Docxtemplater()
