@@ -1,13 +1,16 @@
 {
-  "name": "electron-quick-start",
+  "name": "AutoBrochure",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "AutoBrochure tool developed by Christian Martin Rios for IBM through UCL.",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "stop": "pkill --signal SIGINT myApp"
+    "start": "electron-forge start",
+    "build": "electron-packager . AutoBrochure --all",
+    "stop": "pkill --signal SIGINT myApp",
+    "package": "electron-forge package",
+    "make": "electron-forge make AutoBrochure"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/cmrios2398/IBM_Autobrochure",
   "keywords": [
     "Electron",
     "quick",
@@ -15,9 +18,14 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "Christian Martin Rios",
   "license": "CC0-1.0",
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.52",
+    "@electron-forge/maker-deb": "^6.0.0-beta.52",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.52",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.52",
+    "@electron-forge/maker-zip": "^6.0.0-beta.52",
     "@types/file-saver": "^2.0.1",
     "electron": "^9.1.0"
   },
@@ -29,6 +37,7 @@
     "docxtemplater-image-module": "^3.1.0",
     "docxtemplater-image-module-free": "^1.1.1",
     "electron-reload": "^1.5.0",
+    "electron-squirrel-startup": "^1.0.0",
     "file-saver": "^2.0.2",
     "fuse.js": "^6.4.0",
     "image-size": "^0.8.3",
@@ -40,5 +49,32 @@
     "pizzip": "^3.0.6",
     "webpack": "^4.43.0",
     "xlsx": "^0.16.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_quick_start"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }

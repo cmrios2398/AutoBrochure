@@ -1,10 +1,51 @@
-$("#generate_button").click(function(){
+$("#ctrl" ).change(function() {
+  var x = document.getElementById("ctrl");
+  var url = x.files[0].path;
+  localStorage.setItem("templateFolder",JSON.stringify(url));
+  if(url != ""){
+    
+    $("#template").empty();
+    $('#template').append($('<option>', {value: null, text: "Template"}));
+    
+    changeTemplateOptions();
+    if($("#orientation").val() != null && $("#paper_size").val() != null){
+      $('#template').removeAttr('disabled');
+    }
+
+  var templateOptions = JSON.parse(localStorage.getItem("templateOptions"))
+  templateOptions.forEach(element => {
+    $('#template').append($('<option>', {
+      value: element,
+      text: element
+    }));
+  });
+  
+
+
+    $("#folderSelect" ).hide();
+    $("#templateSelect" ).show();
+    
+
+  }
+})
+
+
+$("#generate_button").change(function(){
   if(($("#paper_size").val() == null) || ($("#orientation").val() == null) || ($("#template").val() == null) || ($("#template").val() == "Template")){
     alert("Please select all document settings before proceding.")
    
   }
   else{
-    generateWordDocument()
+
+    var p = document.getElementById("generate_button");
+    var url = p.files[0].path;
+
+    url = url.substr(0, url.lastIndexOf("/"));
+
+    localStorage.setItem("outputFolder",JSON.stringify(url));
+
+    generateWordDocument();
+    
   }
 })
 
@@ -32,6 +73,7 @@ $("#paper_size").change(function(){
 
 })
 
+
 $("#orientation").change(function(){
   $("#template").empty();
   $('#template').append($('<option>', {value: null, text: "Template"}));
@@ -52,7 +94,6 @@ $("#orientation").change(function(){
 
 
 })
-
 
 
 

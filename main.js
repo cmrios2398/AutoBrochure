@@ -83,6 +83,13 @@ app.on('before-quit', () => {
 function changeTemplateOptions(){
   var fs = require("fs");
 
+  var url = JSON.parse(localStorage.getItem("templateFolder"));
+  console.log(url)
+
+
+  url = url.substr(0, url.lastIndexOf("/"));
+  console.log(url)
+
   var paper_size = $("#paper_size").val();
   var orientation = $("#orientation").val();
   var template = $("#template").val();
@@ -95,10 +102,10 @@ function changeTemplateOptions(){
     case "A3":
       switch(orientation){
         case "Portrait":
-          templateOptions = fs.readdirSync('./templates/A3/portrait');
+          templateOptions = fs.readdirSync(url + "/A3/portrait");
           break;
         case "Landscape":
-          templateOptions = fs.readdirSync('./templates/A3/landscape')
+          templateOptions = fs.readdirSync(url + '/A3/landscape')
           break;
         default:
           break;
@@ -107,10 +114,10 @@ function changeTemplateOptions(){
     case "A4":
       switch(orientation){
         case "Portrait":
-          templateOptions = fs.readdirSync('./templates/A4/portrait');
+          templateOptions = fs.readdirSync(url + '/A4/portrait');
           break;
         case "Landscape":
-          templateOptions = fs.readdirSync('./templates/A4/landscape')
+          templateOptions = fs.readdirSync(url + '/A4/landscape')
           break;
         default:
           break;
@@ -119,10 +126,10 @@ function changeTemplateOptions(){
     case "A5":
       switch(orientation){
         case "Portrait":
-          templateOptions = fs.readdirSync('./templates/A5/portrait');
+          templateOptions = fs.readdirSync(url + '/A5/portrait');
           break;
         case "Landscape":
-          templateOptions = fs.readdirSync('./templates/A5/landscape')
+          templateOptions = fs.readdirSync(url + '/A5/landscape')
           break;
         default:
           break;
@@ -140,6 +147,11 @@ function changeTemplateOptions(){
 
 
 function generateWordDocument(){
+  var url = JSON.parse(localStorage.getItem("templateFolder"));
+  var outputURL = JSON.parse(localStorage.getItem("outputFolder"));
+
+
+  url = url.substr(0, url.lastIndexOf("/"));
   var fs = require("fs")
   var brochureData = JSON.parse(localStorage.getItem("brochureData"));
   var keys = JSON.parse(localStorage.getItem("keys"));
@@ -172,10 +184,10 @@ function generateWordDocument(){
     case "A3":
       switch(orientation){
         case "Portrait":
-          content = fs.readFileSync(path.resolve(__dirname,'./templates/A3/portrait/' + templateSelected));
+          content = fs.readFileSync(path.resolve(__dirname,url + '/A3/portrait/' + templateSelected));
           break;
         case "Landscape":
-          content = fs.readFileSync(path.resolve(__dirname,'./templates/A3/landscape/' + templateSelected));
+          content = fs.readFileSync(path.resolve(__dirname,url + '/A3/landscape/' + templateSelected));
           break;
         default:
           break;
@@ -184,10 +196,10 @@ function generateWordDocument(){
     case "A4":
       switch(orientation){
         case "Portrait":
-          content = fs.readFileSync(path.resolve(__dirname,'./templates/A4/portrait/' + templateSelected));
+          content = fs.readFileSync(path.resolve(__dirname,url + '/A4/portrait/' + templateSelected));
           break;
         case "Landscape":
-          content = fs.readFileSync(path.resolve(__dirname,'./templates/A4/landscape/' + templateSelected));
+          content = fs.readFileSync(path.resolve(__dirname,url + '/A4/landscape/' + templateSelected));
           break;
         default:
           break;
@@ -196,10 +208,10 @@ function generateWordDocument(){
     case "A5":
       switch(orientation){
         case "Portrait":
-          content = fs.readFileSync(path.resolve(__dirname,'./templates/A5/portrait/' + templateSelected));
+          content = fs.readFileSync(path.resolve(__dirname,url + '/A5/portrait/' + templateSelected));
           break;
         case "Landscape":
-          content = fs.readFileSync(path.resolve(__dirname,'./templates/A5/landscape/' + templateSelected));
+          content = fs.readFileSync(path.resolve(__dirname,url + '/A5/landscape/' + templateSelected));
           break;
         default:
           break;
@@ -244,6 +256,7 @@ function generateWordDocument(){
     )
   })
    
+
 console.log(imageList);
 var ImageModule = require('docxtemplater-image-module-free');
 
@@ -297,7 +310,8 @@ var buffer = docx
   .getZip()
   .generate({ type: "nodebuffer", compression: "DEFLATE" });
 
-fs.writeFileSync(path.resolve(__dirname, 'output.docx'), buffer);
+  fs.writeFileSync(path.resolve(outputURL, 'autobrochure.docx'), buffer);
+  alert("Your file has been saved with the name autobrochure.docx at folder: " + outputURL)
 }
 
 // var path = require("path"

@@ -29,7 +29,7 @@
 <body>
 
 	<!-- <input class = "awesomplete" data-list="CSS, JavaScript, HTML, SVG, ARIA, MathML" data-multiple /> -->
-	<div class="s010">
+	<div style="position: relative;"class="s010">
 		<!-- <h1 class="title">Autobrochure Generator</h1> -->
 		<form>
 			<div class="inner-form">
@@ -180,19 +180,20 @@
 							</div>
 						</div>
 						<div class="input-field">
-							<div class="input-select">
+							<div id="folderSelect" class="input-select">
+								<!-- <br style="display: block; margin: 100px;"> --><div style="cursor:pointer; padding-top:7px;padding: 8px; padding-left: 15px; padding-right:45px;background-color: rgb(102,102,102); border-radius: 10px;">
+								<label style="cursor:pointer; font-size: 14px; color:black; "for="ctrl">Select Template Folder</label>
+								</div>
+								<input style="background: white; color:black; visibility: hidden;" type="file" id="ctrl" webkitdirectory directory multiple/>
+
+							</div>
+							<div id="templateSelect" style="display: none;" class="input-select">
 								<select disabled class = "select-css" data-trigger="" id="template" >
 									<option selected disabled value="default">
 										Template
 									</option>
-									
-									<option>
-										UCL Showcase
-									</option>
-									<option>
-										IBM Report
-									</option>
 								</select>
+								
 							</div>
 						</div>
 					</div>
@@ -221,23 +222,33 @@
 									
 								</form>
 							</div>
-							<div >
-            					<input class="btn-search" id="generate_button" type="button" value="GENERATE">
+								<!-- <input style="background: white; color:black; visibility: hidden;" type="file" id="ctrl" webkitdirectory directory multiple/> -->
+
+						<div style="font-family: IBMRegular, sans-serif; height:40px; padding-top: 4px; text-align: center; width: 100px;cursor:pointer; padding-top:10px; background-color: rgb(102,102,102); border-radius: 8px;">
+
+								<label style="cursor:pointer; font-size: 14px; color:white; "for="generate_button">GENERATE</label>
+							
+								<input style="background: white; color:black; visibility: hidden;" type="file" id="generate_button" webkitdirectory directory multiple/>
+
+
+            					<!-- <input class="btn-search" id="generate_button" type="file" value="GENERATE"> -->
 							</div>
 						</div>
 					</div>
+					
+			</div>
+			<br><br><br><br>
 				</div>
 
-				<br>
 				
 				
-			</div>
+				
 		</form>
-		<p style="position:absolute;
-		bottom: 20px; 
+		<p style="position: absolute;
+		bottom: 20px;  
 		
 		">Developed by Christian Martin Rios</p>
-		<p style="position:absolute; bottom:0">
+		<p style="position: absolute; bottom:0;">
 		Supervised by Dr Dean Mohamedally & John McNamara </p>
 	</div>
 
