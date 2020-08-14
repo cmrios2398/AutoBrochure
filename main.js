@@ -314,8 +314,7 @@ var buffer = docx
   alert("Your file has been saved with the name autobrochure.docx at folder: " + outputURL)
 }
 
-// var path = require("path"
-// );
+
 
 function contains(target, pattern) {
   var value = 0;
@@ -378,12 +377,6 @@ function searcher() {
   var brochureData = [];
 
   console.log(allKeywords)
-
-
-  //You are starting with the search algorithm going through every database field (project, author...) of each
-  //element and checking whether it contains either the keyword or the fieldList
-  //
-  //the problem that you are having is that you get an error when it encounters an empty field (try catch??)
 
 
   // SIMPLE SEARCH:
@@ -615,13 +608,6 @@ function getFiles() {
   })
   localStorage.setItem("moduleCodes",JSON.stringify(moduleCodes));
 
-
-
-
-
-
-
-  
 
 
   //UCL ACADEMIC SUPERVISOR LIST:
